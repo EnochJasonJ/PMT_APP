@@ -1,0 +1,231 @@
+{
+	"info": {
+		"name": "Internal PM Tool API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login Successful\", function() { pm.response.to.have.status(200); });",
+									"const response = pm.response.json();",
+									"if(response.access_token){ pm.globals.set(\"token\", response.access_token); }"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{ "key": "username", "value": "admin@example.com", "type": "text" },
+								{ "key": "password", "value": "admin123", "type": "text" }
+							]
+						},
+						"url": { "raw": "{{baseUrl}}/api/auth/login", "host": ["{{baseUrl}}"], "path": ["api", "auth", "login"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "List All Tasks",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/tasks/", "host": ["{{baseUrl}}"], "path": ["api", "tasks", ""] }
+					}
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"New Backend Feature\",\n  \"project_id\": 1,\n  \"task_number\": 101,\n  \"description\": \"Implementing Postman collections\",\n  \"status\": \"todo\",\n  \"priority\": \"medium\",\n  \"type\": \"task\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/tasks/", "host": ["{{baseUrl}}"], "path": ["api", "tasks", ""] }
+					}
+				},
+				{
+					"name": "Update Task Status",
+					"request": {
+						"method": "PATCH",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"in_progress\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/tasks/1", "host": ["{{baseUrl}}"], "path": ["api", "tasks", "1"] }
+					}
+				},
+				{
+					"name": "Get Task History (Audit Trail)",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/tasks/1/activities", "host": ["{{baseUrl}}"], "path": ["api", "tasks", "1", "activities"] }
+					}
+				},
+				{
+					"name": "Add Comment",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"I have started working on this task.\",\n  \"task_id\": 1\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/tasks/comments", "host": ["{{baseUrl}}"], "path": ["api", "tasks", "comments"] }
+					}
+				},
+				{
+					"name": "Delete Task",
+					"request": {
+						"method": "DELETE",
+						"url": { "raw": "{{baseUrl}}/api/tasks/1", "host": ["{{baseUrl}}"], "path": ["api", "tasks", "1"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "List All Projects",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/projects/", "host": ["{{baseUrl}}"], "path": ["api", "projects", ""] }
+					}
+				},
+				{
+					"name": "Get Project Details",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/projects/1", "host": ["{{baseUrl}}"], "path": ["api", "projects", "1"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Repository Integrations",
+			"item": [
+				{
+					"name": "List Integrations for Project",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/integrations/project/1", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "project", "1"] }
+					}
+				},
+				{
+					"name": "Link New Repository",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"provider\": \"github\",\n  \"repository_name\": \"backend-api\",\n  \"repository_url\": \"https://github.com/company/backend-api\",\n  \"branch_name\": \"main\",\n  \"project_id\": 1\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/integrations/", "host": ["{{baseUrl}}"], "path": ["api", "integrations", ""] }
+					}
+				},
+				{
+					"name": "Update Integration",
+					"request": {
+						"method": "PATCH",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"branch_name\": \"develop\",\n  \"is_active\": true\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/integrations/1", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "1"] }
+					}
+				},
+				{
+					"name": "Unlink Repository",
+					"request": {
+						"method": "DELETE",
+						"url": { "raw": "{{baseUrl}}/api/integrations/1", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "1"] }
+					}
+				},
+				{
+					"name": "Fetch Pull Requests",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/integrations/3/pulls", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "3", "pulls"] }
+					}
+				},
+				{
+					"name": "Fetch Recent Commits",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/integrations/3/commits", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "3", "commits"] }
+					}
+				},
+				{
+					"name": "Fetch External Issues",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/integrations/3/issues", "host": ["{{baseUrl}}"], "path": ["api", "integrations", "3", "issues"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "List Teams",
+					"request": {
+						"method": "GET",
+						"url": { "raw": "{{baseUrl}}/api/teams/", "host": ["{{baseUrl}}"], "path": ["api", "teams", ""] }
+					}
+				},
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Marketing\",\n  \"description\": \"Marketing and Sales team\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/api/teams/", "host": ["{{baseUrl}}"], "path": ["api", "teams", ""] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Jobs",
+			"item": [
+				{
+					"name": "Trigger Repo Sync",
+					"request": {
+						"method": "POST",
+						"url": { "raw": "{{baseUrl}}/api/jobs/trigger/repo-sync", "host": ["{{baseUrl}}"], "path": ["api", "jobs", "trigger", "repo-sync"] }
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{ "key": "token", "value": "{{token}}", "type": "string" }
+		]
+	},
+	"variable": [
+		{ "key": "baseUrl", "value": "http://localhost:8000", "type": "string" }
+	]
+}

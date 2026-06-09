@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* FlowBoard Professional Palette */
+  --color-background: #f4f7f9;
+  --color-foreground: #1e293b;
+  
+  --color-primary: #459a8c;
+  --color-primary-foreground: #FFFFFF;
+  
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1e293b;
+  
+  --color-muted: #e2e8f0;
+  --color-muted-foreground: #64748b;
+  
+  --color-accent: #f1f5f9;
+  --color-accent-foreground: #459a8c;
+  
+  --color-border: #e2e8f0;
+  --color-input: #ffffff;
+  --color-ring: #459a8c;
+
+  /* FlowBoard Status Colors */
+  --color-status-start: #64748b;
+  --color-status-progress: #7c3aed;
+  --color-status-completed: #10b981;
+  --color-status-risk: #f59e0b;
+  --color-status-issue: #ef4444;
+
+  /* Elevations */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.04), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Radius */
+  --radius-xl: 12px;
+  --radius-2xl: 20px;
+  --radius-3xl: 32px;
+}
+
+:root {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* FlowBoard Card Style */
+.fb-card {
+  background: white;
+  border: 1px solid #f1f5f9;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
+}
+
+/* Interactive Elements */
+.nav-link-active {
+  background-color: #459a8c;
+  color: white !important;
+}
+
+.fb-input {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.fb-input:focus {
+  background-color: white;
+  border-color: #459a8c;
+  box-shadow: 0 0 0 4px rgba(69, 154, 140, 0.1);
+}
+
+/* Animations */
+.hover-lift {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* =====================================================================
+   DARK THEME
+   The app uses literal Tailwind color utilities (bg-white, text-slate-*,
+   etc.) rather than semantic tokens, so we remap the neutral palette under
+   .dark. These rules are unlayered, so they override Tailwind's layered
+   utilities without needing per-element dark: variants.
+   ===================================================================== */
+html.dark {
+  color-scheme: dark;
+}
+
+/* Page shell */
+.dark body,
+.dark .bg-\[\#f4f7f9\] { background-color: #0b1220 !important; }
+
+/* Surfaces */
+.dark .bg-white { background-color: #1e2532 !important; }
+.dark .fb-card,
+.dark .group { background-color: #1e2532 !important; }
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-slate-100\/50 { background-color: #0b1220 !important; }
+
+/* Text */
+.dark .text-\[\#1e293b\],
+.dark .text-slate-950,
+.dark .text-slate-900,
+.dark .text-slate-800 { color: #f8fafc !important; }
+.dark .text-slate-700 { color: #f1f5f9 !important; }
+.dark .text-slate-600 { color: #e2e8f0 !important; }
+.dark .text-slate-500 { color: #e2e8f0 !important; }
+.dark .text-slate-400 { color: #94a3b8 !important; }
+.dark .text-slate-300 { color: #cbd5e1 !important; }
+.dark .text-slate-200 { color: #e2e8f0 !important; }
+.dark .text-slate-100 { color: #f1f5f9 !important; }
+
+/* Borders - Use subtle borders to avoid the 'outline' look */
+.dark .border-slate-50,
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border { border-color: rgba(255, 255, 255, 0.03) !important; }
+
+/* Overdue / Rose borders in dark mode - make them a soft glow rather than a pink line */
+.dark .border-rose-100,
+.dark .border-rose-200 { 
+  border-color: rgba(244, 63, 94, 0.1) !important;
+  box-shadow: inset 0 0 10px rgba(244, 63, 94, 0.05);
+}
+
+/* Specific fixes for task cards in dark mode */
+.dark .group:hover { border-color: rgba(255, 255, 255, 0.1) !important; }
+.dark .shadow-sm { shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5); }
+
+/* Status pill backgrounds in dark mode */
+.dark .bg-rose-50 { background-color: rgba(225, 29, 72, 0.1) !important; }
+.dark .bg-indigo-50 { background-color: rgba(79, 70, 229, 0.1) !important; }
+.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.1) !important; }
+.dark .bg-slate-50 { background-color: rgba(71, 85, 105, 0.1) !important; }
+
+/* List view status badge backgrounds — dim to alpha so text stays chromatic and readable */
+.dark .bg-amber-100 { background-color: rgba(251, 191, 36, 0.15) !important; }
+.dark .text-amber-700 { color: #fbbf24 !important; }
+.dark .bg-sky-100 { background-color: rgba(56, 189, 248, 0.15) !important; }
+.dark .text-sky-700 { color: #38bdf8 !important; }
+.dark .bg-violet-100 { background-color: rgba(139, 92, 246, 0.15) !important; }
+.dark .text-violet-700 { color: #a78bfa !important; }
+.dark .bg-orange-100 { background-color: rgba(251, 146, 60, 0.15) !important; }
+.dark .text-orange-700 { color: #fb923c !important; }
+.dark .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.15) !important; }
+.dark .text-emerald-700 { color: #34d399 !important; }
+
+
+/* Table row hover — subtle in both themes */
+.fb-row { transition: background-color 0.15s ease; }
+.fb-row:hover { background-color: rgba(15, 23, 42, 0.06) !important; }
+.dark .fb-row:hover { background-color: rgba(255, 255, 255, 0.06) !important; }
+
+/* Inputs / hovers */
+.dark .hover\:bg-slate-50:hover { background-color: #0f172a !important; }
+.dark input,
+.dark textarea,
+.dark select { color: #e2e8f0; }
+.dark input::placeholder,
+.dark textarea::placeholder { color: #64748b; }
